@@ -9,6 +9,7 @@ export default class UploadFiles extends Component {
     this.upload = this.upload.bind(this);
     this.getAll = this.getAll.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.state = {
       selectedFiles: undefined,
       currentFile: undefined,
@@ -20,7 +21,8 @@ export default class UploadFiles extends Component {
       tableData: [],
       orgtableData: [],
       perPage: 1,
-      currentPage: 0
+      currentPage: 0,
+      movieName:undefined
     };
   }
 
@@ -37,6 +39,16 @@ export default class UploadFiles extends Component {
         });
 
     };
+//form submition
+      handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    
+    //fetch('/api/form-submit-url', {
+      //method: 'POST',
+      //body: data,
+    //});
+  }
 
   loadMoreData() {
 		const data = this.state.orgtableData;
@@ -68,7 +80,7 @@ export default class UploadFiles extends Component {
       currentFile: currentFile,
     });
 
-    UploadService.upload(currentFile, (event) => {
+    UploadService.upload(currentFile,  (event) => {
       this.setState({
         progress: Math.round((100 * event.loaded) / event.total),
       });
@@ -132,6 +144,27 @@ var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage
 
     return (
       <div>
+      <form onSubmit={this.handleSubmit}>
+        <label htmlFor="Name">Name</label>
+        <input id="Name" name="Name" type="text" />
+
+        <label htmlFor="Description">Description</label>
+        <input id="Description" name="Description" type="email" />
+
+        <label htmlFor="RealeaseDate">RealeaseDate</label>
+        <input id="RealeaseDate" name="RealeaseDate" type="text" />
+
+        <label htmlFor="Rating">Rating</label>
+        <input id="Rating" name="Rating" type="text" />
+
+        <label htmlFor="Country">TicketPrice</label>
+        <input id="Country" name="Country" type="text" />
+
+        <label htmlFor="Genre">Genre</label>
+        <input id="Genre" name="Genre" type="text" />
+
+        <button>Send data!</button>
+      
         {currentFile && (
           <div className="progress">
             <div
@@ -158,7 +191,7 @@ var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage
         >
           Upload
         </button>
-
+</form>
 &nbsp; &nbsp; &nbsp;
         <button
           className="btn btn-success"
@@ -172,10 +205,10 @@ var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage
           {message}
         </div>
 
-        <div>
-                  
 
-                  <table border="1">
+        <div>
+        
+                         <table border="1">
                      <thead>
                          <th>Name</th>
                          <th>Description</th>
