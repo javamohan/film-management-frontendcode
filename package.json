@@ -37,7 +37,7 @@
       "last 1 safari version"
     ]
   },
-  "description": "In this tutorial, we’re gonna build a React JWT Authentication example with LocalStorage, React Router, Axios and Bootstrap (without Redux). I will show you:",
+  "description": "In this tutorial, we’re gonna build a React JWT Authentication example with LocalStorage, React Router, Axios and Bootstrap (without Redux). ",
   "main": "index.js",
   "author": "",
   "license": "ISC"

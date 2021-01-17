@@ -15,7 +15,6 @@ constructor(props) {
 
 
 componentDidMount() {
-
   
     const user = AuthService.getCurrentUser();
 

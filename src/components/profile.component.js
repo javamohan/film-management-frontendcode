@@ -20,6 +20,7 @@ export default class Profile extends Component {
     this.setState({ currentUser: currentUser, userReady: true })
   }
 
+
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />

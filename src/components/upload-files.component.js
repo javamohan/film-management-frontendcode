@@ -167,6 +167,7 @@ var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage
           ShowAll
         </button>
 
+
         <div className="alert alert-light" role="alert">
           {message}
         </div>

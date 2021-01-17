@@ -18,6 +18,7 @@ export default class BoardAdmin extends Component {
           content: response.data
         });
       },
+      
       error => {
         this.setState({
           content:
@@ -30,7 +31,6 @@ export default class BoardAdmin extends Component {
       }
     );
   }
-
   render() {
     return (
       <div className="container">
