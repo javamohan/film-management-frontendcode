@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import UploadService from "../services/upload-files.service";
 import ReactPaginate from 'react-paginate';
+import DatePicker from 'react-datepicker';
+import  "react-datepicker/dist/react-datepicker.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class UploadFiles extends Component {
   constructor(props) {
@@ -10,6 +13,9 @@ export default class UploadFiles extends Component {
     this.getAll = this.getAll.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this)
+     this.handleChange = this.handleChange.bind(this);
+     this.handleRatingChange = this.handleRatingChange.bind(this)
+   
     this.state = {
       selectedFiles: undefined,
       currentFile: undefined,
@@ -22,8 +28,28 @@ export default class UploadFiles extends Component {
       orgtableData: [],
       perPage: 1,
       currentPage: 0,
-      movieName:undefined
+      movieName:"",
+      description:"",
+      realeaseDate: new Date(),
+      rating:1,
+      ticketPrice:0,
+      country:"",
+      genre:""
+
     };
+  }
+
+// Release Date Picker
+handleChange(date) {
+    this.setState({
+      realeaseDate: date
+    })
+  }
+  // Rating Select
+ handleRatingChange(event){
+    this.setState({
+      rating:event.target.value
+      });
   }
 
 // Pagination
@@ -39,16 +65,20 @@ export default class UploadFiles extends Component {
         });
 
     };
-//form submition
+//form data submition
       handleSubmit(event) {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    
-    //fetch('/api/form-submit-url', {
-      //method: 'POST',
-      //body: data,
-    //});
-  }
+      event.preventDefault();
+      alert(event.target.TicketPrice.value)
+      this.setState({
+						movieName:event.target.Name.value,
+            description:event.target.Description.value,
+            realeaseDate:this.state.realeaseDate,
+           rating:this.state.rating,
+            ticketPrice:event.target.TicketPrice.value,
+            country:event.target.Country.value,
+            genre:event.target.Genre.value,
+		})
+   }
 
   loadMoreData() {
 		const data = this.state.orgtableData;
@@ -74,13 +104,28 @@ export default class UploadFiles extends Component {
 
   upload() {
     let currentFile = this.state.selectedFiles[0];
-
+    let movieName = this.state.movieName;
+    let description = this.state.description;
+    let realeaseDate = this.state.realeaseDate;
+    let rating = this.state.rating;
+    let ticketPrice = this.state.ticketPrice;
+    let country = this.state.country;
+    let genre = this.state.genre;
     this.setState({
       progress: 0,
       currentFile: currentFile,
+      //movieName = movieName,
     });
 
-    UploadService.upload(currentFile,  (event) => {
+    UploadService.upload(currentFile, 
+    this.state.movieName , 
+    this.state.description,
+    this.state.realeaseDate,
+    this.state.rating,
+    this.state.ticketPrice,
+    this.state.country,
+    this.state.genre,
+    (event) => {
       this.setState({
         progress: Math.round((100 * event.loaded) / event.total),
       });
@@ -89,7 +134,7 @@ export default class UploadFiles extends Component {
         this.setState({
           message: response.data.message,
         });
-        //return UploadService.getFiles();
+    
       })
       .then((files) => {
         this.setState({
@@ -123,12 +168,7 @@ var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage
                     tableData:slice
 
                 })
-    //  this.setState({
-      //  fileInfos: response.data,
-     // });
-
-
-    });
+       });
   }
 
 
@@ -149,15 +189,27 @@ var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage
         <input id="Name" name="Name" type="text" />
 
         <label htmlFor="Description">Description</label>
-        <input id="Description" name="Description" type="email" />
+        <input id="Description" name="Description" type="text" />
 
-        <label htmlFor="RealeaseDate">RealeaseDate</label>
-        <input id="RealeaseDate" name="RealeaseDate" type="text" />
-
+          <label htmlFor="RealeaseDate">RealeaseDate</label>
+         <DatePicker
+              selected={ this.state.realeaseDate }
+              onChange={ this.handleChange }
+              name="realeaseDate"
+              dateFormat="dd/MM/yyyy" 
+          />
         <label htmlFor="Rating">Rating</label>
-        <input id="Rating" name="Rating" type="text" />
+        <select id="dropdown" onChange={this.handleRatingChange} >
+       <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
 
-        <label htmlFor="Country">TicketPrice</label>
+        <label htmlFor="TicketPrice">TicketPrice</label>
+        <input type="number"  id="TicketPrice" name="TicketPrice" pattern="[0-9]*" inputmode="numeric"></input>
+        <label htmlFor="Country">Country</label>
         <input id="Country" name="Country" type="text" />
 
         <label htmlFor="Genre">Genre</label>

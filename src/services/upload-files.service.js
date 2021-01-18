@@ -30,18 +30,29 @@ componentDidMount() {
 
 
 
-  upload(file, onUploadProgress) {
-        let formData = new FormData();
-        // 
+  upload(file, 
+name,
+description,
+realeaseDate,
+rating,
+ticketPrice,
+country,
+genre,
+onUploadProgress) {
+let formData = new FormData();
+     formData.append("file", file); 
+     formData.append("name",name);
+    formData.append("description",description);
+    formData.append("realeaseDate",realeaseDate);
+    formData.append("rating",rating);
+    formData.append("ticketPrice",ticketPrice);
+    formData.append("country",country);
+     formData.append("genre",genre);
     
-  // my -changes
-    formData.append("file", file);
-    
-
-    return http.post("/upload", formData, {
+     return http.post("/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxsZXIiLCJpYXQiOjE2MTA4MTU2NDMsImV4cCI6MTYxMDkwMjA0M30.3HA-hmbKs28aCwLpVMHTJcsPgDqZIPahV7YspLYolppmI3QoOx6S3F4t6TUSJx9rjgkiMK8e4kdFtOpJHuqVRw" 
+        "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxsZXIiLCJpYXQiOjE2MTA5MzY0NzcsImV4cCI6MTYxMTAyMjg3N30.8uPTmDsbESuw850Rdi4mhz3rD3svdNnngFsqJkFSBVkklKIHhUAoe9gpAx0zv8mPmDQHOPJJKDHVCXlIqWhrrQ" 
       },
       onUploadProgress,
     });
@@ -51,7 +62,7 @@ componentDidMount() {
     return http.get("/filims", {
       headers:{
         "Content-Type": "multipart/form-data",
-        "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxsZXIiLCJpYXQiOjE2MTA4MTU2NDMsImV4cCI6MTYxMDkwMjA0M30.3HA-hmbKs28aCwLpVMHTJcsPgDqZIPahV7YspLYolppmI3QoOx6S3F4t6TUSJx9rjgkiMK8e4kdFtOpJHuqVRw"  
+        "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxsZXIiLCJpYXQiOjE2MTA5MzY0NzcsImV4cCI6MTYxMTAyMjg3N30.8uPTmDsbESuw850Rdi4mhz3rD3svdNnngFsqJkFSBVkklKIHhUAoe9gpAx0zv8mPmDQHOPJJKDHVCXlIqWhrrQ"  
       }});
   }
 }
